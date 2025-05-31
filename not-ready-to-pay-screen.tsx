@@ -52,7 +52,7 @@ export default function NotReadyToPayScreen({
       {/* Simulation Scenarios */}
       <div className="space-y-8 sm:space-y-10 flex-grow">
         {/* Scenario 1: If you Pay now */}
-        <div className="flex items-center space-x-3 sm:space-x-4 p-4 border border-gray-200 rounded-lg shadow-sm">
+        <div className="flex items-center space-x-2 sm:space-x-3 p-4 border border-gray-200 rounded-lg shadow-sm">
           <div className="w-1/3 text-sm text-left">
             <p className="text-gray-600">If you</p>
             <p className="font-bold text-black text-base">Pay now</p>
@@ -72,7 +72,7 @@ export default function NotReadyToPayScreen({
         </div>
 
         {/* Scenario 2: If you don't pay */}
-        <div className="flex items-center space-x-3 sm:space-x-4 p-4 border border-gray-200 rounded-lg shadow-sm">
+        <div className="flex items-center space-x-2 sm:space-x-3 p-4 border border-gray-200 rounded-lg shadow-sm">
           <div className="w-1/3 text-sm text-left">
             <p className="text-gray-600">If you</p>
             <p className="font-bold text-black text-base">don't pay</p>
@@ -94,12 +94,12 @@ export default function NotReadyToPayScreen({
 
       {/* Additional Explanatory Text (Optional - can be uncommented if desired) */}
       {/*
-    <div className="text-center text-xs text-gray-500 my-6 space-y-1">
-      <p>This shows possible outcomes.</p>
-      <p>Your vouchers will help decide if you can't pay.</p>
-      <p>Any payment is better than no payment.</p>
-    </div>
-    */}
+  <div className="text-center text-xs text-gray-500 my-6 space-y-1">
+    <p>This shows possible outcomes.</p>
+    <p>Your vouchers will help decide if you can't pay.</p>
+    <p>Any payment is better than no payment.</p>
+  </div>
+  */}
 
       {/* Bottom Button */}
       <div className="mt-auto pt-8 pb-4">
