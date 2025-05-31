@@ -22,12 +22,12 @@ export default function NotReadyToPayScreen({
   const remainingAmount = Math.max(0, originalLoanAmount - totalPaid)
 
   // Scenario 1: If they pay now
-  const payNowImpactDisplay = 100 // The amount they'd pay to clear, shown as positive
-  const finalScoreIfPaidNow = originalLoanAmount // Score becomes the full loan amount
+  const payNowImpactDisplay = 100
+  const finalScoreIfPaidNow = originalLoanAmount
 
   // Scenario 2: If they don't pay
-  const dontPayImpactDisplay = 100 // The amount unpaid, shown as negative
-  const finalScoreIfDontPay = totalPaid // Score remains what was paid, but loan defaults
+  const dontPayImpactDisplay = 100
+  const finalScoreIfDontPay = totalPaid
 
   return (
     <div className="min-h-screen bg-white flex flex-col p-6 max-w-md mx-auto">
@@ -52,18 +52,18 @@ export default function NotReadyToPayScreen({
       {/* Simulation Scenarios */}
       <div className="space-y-8 sm:space-y-10 flex-grow">
         {/* Scenario 1: If you Pay now */}
-        <div className="flex items-center space-x-2 sm:space-x-3 p-4 border border-gray-200 rounded-lg shadow-sm">
-          <div className="w-1/3 text-sm text-left">
+        <div className="flex items-center p-4 border border-gray-200 rounded-lg shadow-sm">
+          <div className="w-1/3 text-sm text-left pr-2 sm:pr-3">
             <p className="text-gray-600">If you</p>
             <p className="font-bold text-black text-base">Pay now</p>
           </div>
-          <div className="w-1/4 text-center">
+          <div className="flex-shrink-0 text-center px-1 sm:px-2">
             <p className="text-4xl sm:text-5xl font-bold text-[#26cb4d] relative inline-block">
               +{payNowImpactDisplay}
               <span className="absolute bottom-[-5px] left-0 right-0 h-0.5 sm:h-1 bg-[#26cb4d]"></span>
             </p>
           </div>
-          <div className="w-5/12 text-xs sm:text-sm text-black text-left">
+          <div className="flex-1 text-xs sm:text-sm text-black text-left pl-2 sm:pl-3">
             <p>
               Your score becomes {finalScoreIfPaidNow}. You maintain trust, and others are more likely to vouch for you
               again.
@@ -72,18 +72,18 @@ export default function NotReadyToPayScreen({
         </div>
 
         {/* Scenario 2: If you don't pay */}
-        <div className="flex items-center space-x-2 sm:space-x-3 p-4 border border-gray-200 rounded-lg shadow-sm">
-          <div className="w-1/3 text-sm text-left">
+        <div className="flex items-center p-4 border border-gray-200 rounded-lg shadow-sm">
+          <div className="w-1/3 text-sm text-left pr-2 sm:pr-3">
             <p className="text-gray-600">If you</p>
             <p className="font-bold text-black text-base">don't pay</p>
           </div>
-          <div className="w-1/4 text-center">
+          <div className="flex-shrink-0 text-center px-1 sm:px-2">
             <p className="text-4xl sm:text-5xl font-bold text-[#ff0000] relative inline-block">
               -{dontPayImpactDisplay}
               <span className="absolute bottom-[-5px] left-0 right-0 h-0.5 sm:h-1 bg-[#ff0000]"></span>
             </p>
           </div>
-          <div className="w-5/12 text-xs sm:text-sm text-black text-left">
+          <div className="flex-1 text-xs sm:text-sm text-black text-left pl-2 sm:pl-3">
             <p>
               Your score remains {finalScoreIfDontPay} but the loan defaults. Who vouched for you will choose what
               happens next.
@@ -91,15 +91,6 @@ export default function NotReadyToPayScreen({
           </div>
         </div>
       </div>
-
-      {/* Additional Explanatory Text (Optional - can be uncommented if desired) */}
-      {/*
-  <div className="text-center text-xs text-gray-500 my-6 space-y-1">
-    <p>This shows possible outcomes.</p>
-    <p>Your vouchers will help decide if you can't pay.</p>
-    <p>Any payment is better than no payment.</p>
-  </div>
-  */}
 
       {/* Bottom Button */}
       <div className="mt-auto pt-8 pb-4">
