@@ -121,13 +121,11 @@ export default function LoanDashboardScreen({
           <p className="text-green-600 font-semibold mt-4">Congratulations! Your loan is fully paid!</p>
         )}
 
-        <button
-          onClick={onAskForNewLoan}
-          className="text-black mt-8 mb-4 text-sm underline"
-          aria-label="Ask for a new loan"
-        >
-          Ask for a new loan
-        </button>
+        <div className="w-full text-center mt-8 mb-4">
+          <button onClick={onAskForNewLoan} className="text-black text-sm underline" aria-label="Ask for a new loan">
+            Ask for a new loan
+          </button>
+        </div>
       </div>
     </div>
   )
