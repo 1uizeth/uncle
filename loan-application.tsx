@@ -1,16 +1,16 @@
 "use client"
 
-import type React from "react"
-
+import type React from "react" // Keep if other React specific types are used, else not strictly needed for this component
 import { useState } from "react"
 
 type LoanAmount = 10 | 25 | 50 | 75 | 100
 
 interface LoanApplicationProps {
   onLoanSubmitted?: (amount: LoanAmount, purpose: string) => void
+  onCancel?: () => void // This prop determines if the Cancel button is shown
 }
 
-export default function LoanApplication({ onLoanSubmitted }: LoanApplicationProps) {
+export default function LoanApplication({ onLoanSubmitted, onCancel }: LoanApplicationProps) {
   const [selectedAmount, setSelectedAmount] = useState<LoanAmount | null>(null)
   const [purpose, setPurpose] = useState<string>("")
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
@@ -29,43 +29,35 @@ export default function LoanApplication({ onLoanSubmitted }: LoanApplicationProp
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Form validation
     if (!selectedAmount) {
       setError("Please select a loan amount")
       return
     }
-
     if (!purpose.trim()) {
       setError("Please enter the purpose of your loan")
       return
     }
 
-    // Submit form
     setIsSubmitting(true)
-
-    // Simulate API call
     setTimeout(() => {
       console.log("Form submitted:", { selectedAmount, purpose })
       setIsSubmitting(false)
       if (onLoanSubmitted && selectedAmount) {
-        // Ensure selectedAmount is not null
         onLoanSubmitted(selectedAmount, purpose)
       }
-      // Reset form or redirect user
     }, 1000)
-  }
-
-  const handleCancel = () => {
-    // Handle cancel action (e.g., navigate back)
-    console.log("Cancelled")
   }
 
   return (
     <div className="min-h-screen bg-white p-4 max-w-md mx-auto">
       <header className="flex items-center justify-between mb-8">
-        <button onClick={handleCancel} className="text-black font-medium" aria-label="Cancel loan application">
-          Cancel
-        </button>
+        {onCancel ? (
+          <button onClick={onCancel} className="text-black font-medium" aria-label="Cancel loan application">
+            Cancel
+          </button>
+        ) : (
+          <div className="w-14"></div> // Placeholder to maintain title centering
+        )}
         <h1 className="text-xl font-bold text-center flex-1">Ask for a loan</h1>
         <div className="w-14"></div> {/* Spacer for centering title */}
       </header>

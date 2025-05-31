@@ -1,57 +1,77 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+
 import { useState } from "react"
-import VouchAmountModal from "./vouch-amount-modal" // Import the modal
+import { VouchAmountModal } from "@/components/vouch-amount-modal"
 
 interface CommunityVouchingScreenProps {
   currentUserScore: number
   borrowerName: string
   loanAmount: number
+  loanFundedAmount?: number
   loanPurpose: string
   existingVouchersCount: number
   repaymentDays: number
-  onVouch: (borrowerName: string, amount: number, message: string) => void // Updated to include message
+  onVouch?: (borrowerName: string, amount: number, message: string) => void
   onAskForLoan?: () => void
+  currentUserVouchingPower?: number
+  borrowerLoanOriginalAmount?: number
+  borrowerLoanTotalPaid?: number // This is the borrower's score for their loan
 }
 
 export default function CommunityVouchingScreen({
   currentUserScore,
   borrowerName,
   loanAmount,
+  loanFundedAmount = 0,
   loanPurpose,
   existingVouchersCount,
   repaymentDays,
-  onVouch, // This will be called by the modal
+  onVouch,
   onAskForLoan,
+  currentUserVouchingPower,
+  borrowerLoanOriginalAmount,
+  borrowerLoanTotalPaid,
 }: CommunityVouchingScreenProps) {
-  const [isVouchModalOpen, setIsVouchModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const loanRemainingAmount = Math.max(0, loanAmount - loanFundedAmount)
+  const maxUserCanVouchForThisLoan = Math.min(loanRemainingAmount, currentUserVouchingPower ?? Number.POSITIVE_INFINITY)
 
   const handleOpenVouchModal = () => {
-    setIsVouchModalOpen(true)
+    if (loanRemainingAmount <= 0) {
+      alert("This loan is already fully funded!")
+      return
+    }
+    if (maxUserCanVouchForThisLoan <= 0 && loanRemainingAmount > 0) {
+      alert(
+        "You don't have enough vouching power or the remaining amount is too small to vouch for with preset amounts.",
+      )
+      return
+    }
+    setIsModalOpen(true)
   }
 
-  const handleCloseVouchModal = () => {
-    setIsVouchModalOpen(false)
-  }
-
-  const handleVouchSubmitFromModal = (vouchAmount: number, message: string) => {
-    // The onVouch prop of CommunityVouchingScreen is called here
-    onVouch(borrowerName, vouchAmount, message)
-    // Modal closes itself after submission
+  const handleVouchSubmit = (vouchAmount: number, message: string) => {
+    if (onVouch) {
+      onVouch(borrowerName, vouchAmount, message)
+    }
+    setIsModalOpen(false)
   }
 
   const handleAskForNewLoan = () => {
     if (onAskForLoan) {
       onAskForLoan()
-    } else {
-      console.log("Ask for a loan clicked from vouching screen")
     }
   }
+
+  const loanDetailsString = `R$${loanAmount.toFixed(2)} for ${loanPurpose}` // Assuming R$
+  const currencySymbol = "R$"
 
   return (
     <>
       <div className="min-h-screen bg-white flex flex-col items-center justify-between p-6 max-w-md mx-auto">
-        {/* Header Section */}
         <div className="w-full text-center mt-8">
           <p className="text-gray-500 text-sm">Your score</p>
           <div className="mt-2 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto">
@@ -59,15 +79,35 @@ export default function CommunityVouchingScreen({
           </div>
         </div>
 
-        {/* Loan Request Section */}
         <div className="text-center my-10">
           <h1 className="text-2xl sm:text-3xl font-bold text-black">
-            {borrowerName} is asking ${loanAmount.toFixed(2)}
+            {borrowerName} is asking R$${loanAmount.toFixed(2)}
           </h1>
           <p className="text-lg sm:text-xl text-black mt-1">for {loanPurpose}</p>
+          {borrowerLoanOriginalAmount !== undefined &&
+            borrowerLoanTotalPaid !== undefined &&
+            borrowerLoanOriginalAmount > 0 && (
+              <div className="my-4 text-sm text-gray-700">
+                <p>
+                  {borrowerName} has paid back {currencySymbol}
+                  {borrowerLoanTotalPaid.toFixed(2)} of {currencySymbol}
+                  {borrowerLoanOriginalAmount.toFixed(2)} on their current/previous loans.
+                </p>
+                <p>
+                  Repayment Score: <span className="font-bold text-green-600">{borrowerLoanTotalPaid}</span> /{" "}
+                  {borrowerLoanOriginalAmount}
+                </p>
+                {/* Simple progress bar */}
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                  <div
+                    className="bg-green-500 h-2.5 rounded-full"
+                    style={{ width: `${(borrowerLoanTotalPaid / borrowerLoanOriginalAmount) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
         </div>
 
-        {/* Social Proof Section */}
         {existingVouchersCount > 0 && (
           <div className="flex items-center justify-center space-x-2 my-6">
             <div className="flex -space-x-1">
@@ -80,31 +120,25 @@ export default function CommunityVouchingScreen({
             </p>
           </div>
         )}
-        {existingVouchersCount === 0 && (
-          <div className="my-6 h-10 flex items-center justify-center">
-            <p className="text-sm text-gray-500 text-center">Be the first to vouch!</p>
-          </div>
-        )}
+        {loanRemainingAmount <= 0 && <p className="text-green-600 font-semibold my-4">This loan is fully funded! 🎉</p>}
 
-        {/* Primary Action Button - Opens Modal */}
         <div className="w-full flex flex-col items-center mt-auto space-y-4">
-          <button
-            onClick={handleOpenVouchModal} // Changed to open modal
+          <Button
+            onClick={handleOpenVouchModal}
+            disabled={loanRemainingAmount <= 0 || maxUserCanVouchForThisLoan < 10} // Disable if smallest preset is too high
             className="bg-black text-white font-semibold py-3.5 px-8 rounded-lg hover:bg-gray-800 transition-colors w-full max-w-xs h-[50px]"
             aria-label={`Vouch for ${borrowerName}`}
           >
             Vouch for {borrowerName}
-          </button>
+          </Button>
 
-          {/* Loan Terms Section */}
           <div className="text-center text-sm text-gray-700">
             <p>
-              He will have <span className="font-bold">{repaymentDays} days</span>
+              {borrowerName} will have <span className="font-bold">{repaymentDays} days</span>
             </p>
             <p>to pay you back</p>
           </div>
 
-          {/* Secondary Action */}
           <button
             onClick={handleAskForNewLoan}
             className="text-black mt-6 mb-4 text-sm underline"
@@ -114,15 +148,15 @@ export default function CommunityVouchingScreen({
           </button>
         </div>
       </div>
-
-      {/* Vouch Amount Modal */}
       <VouchAmountModal
-        isOpen={isVouchModalOpen}
-        onClose={handleCloseVouchModal}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleVouchSubmit}
         borrowerName={borrowerName}
-        loanAmount={loanAmount}
-        loanPurpose={loanPurpose}
-        onVouchSubmit={handleVouchSubmitFromModal}
+        loanDetails={loanDetailsString}
+        maxVouchAmount={maxUserCanVouchForThisLoan}
+        currencySymbol="R$"
+        // presetAmounts={[10, 25, 50, 75, 100]} // Can be customized here if needed
       />
     </>
   )
