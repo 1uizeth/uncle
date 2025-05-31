@@ -139,11 +139,13 @@ export default function CommunityVouchingScreen({
             <p>to pay you back</p>
           </div>
 
-          <div className="w-full text-center mt-6 mb-4">
-            <button onClick={handleAskForNewLoan} className="text-black text-sm underline" aria-label="Ask for a loan">
-              Ask for a loan
-            </button>
-          </div>
+          <button
+            onClick={handleAskForNewLoan}
+            className="text-black mt-6 mb-4 text-sm underline"
+            aria-label="Ask for a loan"
+          >
+            Ask for a loan
+          </button>
         </div>
       </div>
       <VouchAmountModal

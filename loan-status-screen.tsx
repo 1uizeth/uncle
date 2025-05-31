@@ -125,15 +125,13 @@ export default function LoanStatusScreen({
             )}
           </div>
           {onAskForNewLoan && (
-            <div className="w-full text-center mt-10">
-              <button
-                onClick={onAskForNewLoan}
-                className="text-black text-sm font-medium"
-                aria-label="Ask for a new loan"
-              >
-                Ask for a new loan
-              </button>
-            </div>
+            <button
+              onClick={onAskForNewLoan}
+              className="text-black mt-10 text-sm font-medium"
+              aria-label="Ask for a new loan"
+            >
+              Ask for a new loan
+            </button>
           )}
         </div>
       </div>
@@ -220,15 +218,13 @@ export default function LoanStatusScreen({
             </Button>
           )}
           {onAskForNewLoan && (
-            <div className="w-full text-center mt-10">
-              <button
-                onClick={onAskForNewLoan}
-                className="text-black text-sm font-medium"
-                aria-label="Ask for a new loan"
-              >
-                Ask for a new loan
-              </button>
-            </div>
+            <button
+              onClick={onAskForNewLoan}
+              className="text-black mt-10 text-sm font-medium"
+              aria-label="Ask for a new loan"
+            >
+              Ask for a new loan
+            </button>
           )}
         </div>
       </div>
@@ -298,11 +294,13 @@ export default function LoanStatusScreen({
           )}
 
         {onAskForNewLoan && (
-          <div className="w-full text-center mt-8">
-            <button onClick={onAskForNewLoan} className="text-black text-sm underline" aria-label="Ask for a new loan">
-              Ask for a new loan
-            </button>
-          </div>
+          <button
+            onClick={onAskForNewLoan}
+            className="text-black mt-8 text-sm underline"
+            aria-label="Ask for a new loan"
+          >
+            Ask for a new loan
+          </button>
         )}
       </div>
     </div>
