@@ -22,11 +22,11 @@ export default function NotReadyToPayScreen({
   const remainingAmount = Math.max(0, originalLoanAmount - totalPaid)
 
   // Scenario 1: If they pay now
-  const payNowImpactDisplay = remainingAmount // The amount they'd pay to clear, shown as positive
+  const payNowImpactDisplay = 100 // The amount they'd pay to clear, shown as positive
   const finalScoreIfPaidNow = originalLoanAmount // Score becomes the full loan amount
 
   // Scenario 2: If they don't pay
-  const dontPayImpactDisplay = remainingAmount // The amount unpaid, shown as negative
+  const dontPayImpactDisplay = 100 // The amount unpaid, shown as negative
   const finalScoreIfDontPay = totalPaid // Score remains what was paid, but loan defaults
 
   return (
@@ -94,12 +94,12 @@ export default function NotReadyToPayScreen({
 
       {/* Additional Explanatory Text (Optional - can be uncommented if desired) */}
       {/*
-      <div className="text-center text-xs text-gray-500 my-6 space-y-1">
-        <p>This shows possible outcomes.</p>
-        <p>Your vouchers will help decide if you can't pay.</p>
-        <p>Any payment is better than no payment.</p>
-      </div>
-      */}
+    <div className="text-center text-xs text-gray-500 my-6 space-y-1">
+      <p>This shows possible outcomes.</p>
+      <p>Your vouchers will help decide if you can't pay.</p>
+      <p>Any payment is better than no payment.</p>
+    </div>
+    */}
 
       {/* Bottom Button */}
       <div className="mt-auto pt-8 pb-4">
@@ -107,10 +107,9 @@ export default function NotReadyToPayScreen({
           variant="outline"
           onClick={onConfirmNotReady}
           className="w-full bg-white border-2 border-[#ff0000] text-[#ff0000] hover:bg-red-50 hover:text-[#ff0000] font-semibold py-3.5 text-base sm:text-lg rounded-lg h-14"
-          aria-label={`I'm not ready to pay ${currencySymbol}${remainingAmount.toFixed(2)}`}
+          aria-label="I'm not ready to pay"
         >
-          I'm not ready to pay {currencySymbol}
-          {remainingAmount.toFixed(2)}
+          I'm not ready to pay
         </Button>
       </div>
     </div>
