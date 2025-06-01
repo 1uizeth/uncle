@@ -4,11 +4,11 @@
 
 Uncle is a community-first lending protocol for people excluded from traditional finance. Built on Flow and inspired by real-world informal lending, Uncle allows users to borrow small amounts with the support of their community and grow their own score with every repayment. No credit score needed. No permanent exclusion. Just people helping people.
 
----
+
 
 ![Image](https://github.com/1uizeth/uncle/blob/f1ad9891bce6779893bd68c46367c71e97d70239/public/Uncle-cover-git.png)
 
----
+
 
 ## 🙋 Why Uncle?
 
