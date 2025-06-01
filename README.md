@@ -6,7 +6,7 @@ Uncle is a community-first lending protocol for people excluded from traditional
 
 ---
 
-![Image](https://github.com/user-attachments/assets/uncle-demo-ui)
+![Image](https://github.com/1uizeth/uncle/blob/112f2d43479c68684be26ab5fa3b2bdb7c22bf66/public/Uncle-cover.png)
 
 ---
 
